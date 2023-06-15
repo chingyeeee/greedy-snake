@@ -1,17 +1,16 @@
+import { Center } from "@chakra-ui/react";
 import React from "react";
 import "./App.css";
-import Canvas from "./Canvas";
-import NewGame from "./NewGame";
-import { Center, Divider } from "@chakra-ui/react";
+import PlayGround from "./PlayGround";
 
 function App() {
   return (
     <>
-      <Canvas />
       <Center height="50px">
-        <Divider orientation="horizontal" />
+        <h1 className="text-white text-xl font-bold">Greedy Snake</h1>
       </Center>
-      <NewGame />
+
+      <PlayGround />
     </>
   );
 }
