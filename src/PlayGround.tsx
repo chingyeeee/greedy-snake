@@ -1,4 +1,14 @@
-import { Button, Center, Divider } from "@chakra-ui/react";
+import {
+  ModalOverlay,
+  Button,
+  Center,
+  Divider,
+  Modal,
+  ModalContent,
+  useDisclosure,
+  ModalFooter,
+  ModalHeader,
+} from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 
 interface SnakeCube {
@@ -15,6 +25,8 @@ const PlayGround: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [highestScore, setHighestScore] = useState<number>(0);
   const [myFruit, setMyFruit] = useState<SnakeCube>({ x: 0, y: 0 });
+  const { onClose } = useDisclosure();
+  const [isGameOver, setIsGameOver] = useState(false);
 
   useEffect(() => {
     createSnake();
@@ -157,6 +169,7 @@ const PlayGround: React.FC = () => {
     snake.slice(1).forEach((bodyPart) => {
       if (bodyPart.x === head.x && bodyPart.y === head.y) {
         resetGame();
+        setIsGameOver(true);
       }
     });
 
@@ -201,7 +214,7 @@ const PlayGround: React.FC = () => {
     drawSnake(ctx);
     drawFruit(ctx);
   }, [snake, myFruit]);
-
+  console.log(isGameOver);
   return (
     <>
       <canvas
@@ -219,6 +232,17 @@ const PlayGround: React.FC = () => {
       )}
       <div className="text-white">Game Score: {score}</div>
       <div className="text-white">Highest Score: {highestScore}</div>
+      {isGameOver && (
+        <Modal isOpen={isGameOver} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Game Over! You scored {score}!</ModalHeader>
+            <ModalFooter>
+              <Button onClick={onClose}>Got it</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };
